@@ -1,0 +1,13 @@
+/*index.scss*/
+@import "@/styles/index.css";
+
+/*tailwind logic*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
