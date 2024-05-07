@@ -2,7 +2,7 @@
 
 import DefaultProps from "@/utils/DefaultProps";
 import TailwindProperties from "@/styles/TailwindProperties";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   idStackAtom,
@@ -11,7 +11,11 @@ import {
 } from "@/components/section/Main";
 import { IdStackElement, ResultStackElement } from "@/utils/SongStackElement";
 import youtubeFetcher from "@/utils/youtube/YoutubeRequest";
-import { cobaltFetchWithIds } from "@/utils/cobalt/CobaltRequest";
+import {
+  cobaltFetchWithIds,
+  cobaltResponse,
+} from "@/utils/cobalt/CobaltRequest";
+import { wait } from "next/dist/lib/wait";
 
 function PlaylistAnalyzer({ className }: DefaultProps<never>) {
   const songStack = useRecoilValue(songStackAtom);
@@ -21,9 +25,10 @@ function PlaylistAnalyzer({ className }: DefaultProps<never>) {
   const [idStack, setIdStack] = useRecoilState(idStackAtom);
 
   useEffect(() => {
+    idStackRef.current = [];
     if (!songStack) return;
     Promise.all(
-      songStack.map((title: string) =>
+      songStack.map(async (title: string) =>
         youtubeFetcher(title).then((data: JSON | null) => {
           if (!data) return;
           idStackRef.current = [
@@ -37,49 +42,48 @@ function PlaylistAnalyzer({ className }: DefaultProps<never>) {
       )
     ).then(() => {
       setIdStack(idStackRef.current);
-      console.log(idStackRef.current);
     });
   }, [songStack]);
   useEffect(() => {
+    resultStackRef.current = [];
     if (!idStack) return;
     Promise.all(
-      idStack.map((element: IdStackElement) =>
-        cobaltFetchWithIds(element.ids).then((data) => {
-          resultStackRef.current = [
-            ...resultStackRef.current,
-            { title: element.title, url: data?.url ? data.url : "" },
-          ];
-        })
-      )
-    ).then(() => setResultStack(resultStackRef.current));
+      idStack.map(async (element: IdStackElement, index: number) => {
+        await wait(index * 10000);
+        await cobaltFetchWithIds(element.ids, 0).then(
+          (data: cobaltResponse | null) => {
+            if (!data) return;
+            resultStackRef.current = [
+              ...resultStackRef.current,
+              { title: element.title, url: data.url },
+            ];
+          }
+        );
+      })
+    ).then(() => {
+      setResultStack(resultStackRef.current);
+    });
   }, [idStack]);
   const clickHandler = () => {
     resultStack?.forEach((element: ResultStackElement) => {
-      if (!element.url) return;
-      window.open(element.url);
+      if (!element.url) {
+      } else window.open(element.url);
     });
   };
   const style: TailwindProperties = {
     xl: "",
     base: "",
   };
+  if (!resultStack) return <div className={className} />;
   return (
     <div className={`${style.xl} ${style.base} ${className}`}>
-      {resultStack ? (
-        <button className="text-red-600" onClick={clickHandler}>
-          Download All
-        </button>
-      ) : (
-        <></>
-      )}
+      <button className="text-red-600" onClick={clickHandler}>
+        Download All
+      </button>
       <div className="w-full h-full">
-        {resultStack ? (
-          resultStack.map((element: ResultStackElement, index: number) => (
-            <PlaylistAnalyzerElement data={element} key={index} />
-          ))
-        ) : (
-          <></>
-        )}
+        {resultStack.map((element: ResultStackElement, index: number) => (
+          <PlaylistAnalyzerElement data={element} key={index} />
+        ))}
       </div>
     </div>
   );
