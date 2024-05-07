@@ -1,6 +1,6 @@
 async function youtubeFetcher(
   pattern: string,
-  key: string = "AIzaSyAYxYIwcNXTHZMTFH9HlV7ihoBvpyqoEgw" // default API key
+  key: string = "AIzaSyCWKq-OlOZgyEoffRIRLCtgY2-_Ab0LEGo" // default API key
 ): Promise<JSON | null> {
   const address: string = `https://www.googleapis.com/youtube/v3/search?key=${key}&q=${pattern}&part=snippet&type=video`;
   return await fetch(address)

@@ -15,7 +15,8 @@
     "react-dom": "^18",
     "react-hook-form": "^7.51.4",
     "recoil": "^0.7.7",
-    "redux": "^5.0.1"
+    "redux": "^5.0.1",
+    "youtube-search-api": "^1.2.1"
   },
   "devDependencies": {
     "@types/node": "^20",

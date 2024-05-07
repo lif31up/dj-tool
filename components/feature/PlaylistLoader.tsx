@@ -6,11 +6,15 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import DefaultProps from "@/utils/DefaultProps";
 import { songStackAtom } from "@/components/section/Main";
 
-export default function PlaylistLoader({}) {
+export default function PlaylistLoader({ className }: DefaultProps<never>) {
+  const style: TailwindProperties = {
+    xl: "",
+    base: "pt-2 pl-4 relative",
+  };
   return (
-    <section>
-      <PlaylistParser />
-      <PlaylistDisplay />
+    <section className={`${style.xl} ${style.base} ${className}`}>
+      <PlaylistParser className="absolute top-0 left-0" />
+      <PlaylistDisplay className="mt-16" />
     </section>
   );
 }
@@ -71,6 +75,7 @@ function PlaylistParser({ className }: DefaultProps<never>) {
   };
   return (
     <div className={`${style.xl} ${style.base} ${className}`}>
+      <h1 className="text-xl pb-2">Playlist Loader</h1>
       <input
         type="file"
         id={playlistInputId}
@@ -86,14 +91,14 @@ function PlaylistParser({ className }: DefaultProps<never>) {
   );
 }
 
-function PlaylistDisplay({}) {
+function PlaylistDisplay({ className }: DefaultProps<never>) {
   const songStack = useRecoilValue(songStackAtom);
   let nodesOfPlaylist: Array<React.ReactNode> = [];
   if (!songStack) return <></>;
   songStack.forEach((title: string, index: number) => {
     nodesOfPlaylist.push(<PlaylistElement data={title} key={index} />);
   });
-  return <div>{nodesOfPlaylist}</div>;
+  return <div className={className}>{nodesOfPlaylist}</div>;
 }
 
 function PlaylistElement({ data, className }: DefaultProps<string>) {

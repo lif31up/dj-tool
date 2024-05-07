@@ -48,16 +48,16 @@ async function cobaltFetcher(
 }
 
 export default async function cobaltFetchWithUrl(
-  url: string
+  id: string
 ): Promise<cobaltResponse | null> {
-  dataWithoutUrl.url = url;
+  dataWithoutUrl.url = `${id}`;
   return await cobaltFetcher(dataWithoutUrl);
 }
 
 export async function cobaltFetchWithIds(
   ids: Array<string>
 ): Promise<cobaltResponse | null> {
-  dataWithoutUrl.url = ids[0];
+  dataWithoutUrl.url = "https://www.youtube.com/watch?v=" + ids[0];
   return await cobaltFetcher(dataWithoutUrl);
 }
 
