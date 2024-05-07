@@ -55,6 +55,7 @@ function PlaylistAnalyzer({ className }: DefaultProps<never>) {
   }, [idStack]);
   const clickHandler = () => {
     resultStack?.forEach((element: ResultStackElement) => {
+      if (!element.url) return;
       window.open(element.url);
     });
   };
