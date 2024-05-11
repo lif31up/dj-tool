@@ -4,7 +4,7 @@ import React, { ChangeEvent, MutableRefObject, useRef } from "react";
 import TailwindProperties from "@/styles/TailwindProperties";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import DefaultProps from "@/utils/DefaultProps";
-import { songStackAtom } from "@/components/section/Main";
+import { songStackAtom } from "@/components_proto/section/Main";
 
 export default function PlaylistLoader({ className }: DefaultProps<never>) {
   const style: TailwindProperties = {

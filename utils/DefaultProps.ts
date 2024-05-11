@@ -7,3 +7,7 @@ export default interface DefaultProps<T> {
   data?: T;
   onClick?: () => any;
 }
+
+export function isOfType<T>(obj: any): obj is T {
+  return obj.hasOwnProperty(prop);
+}

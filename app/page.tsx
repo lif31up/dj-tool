@@ -1,9 +1,9 @@
-import Main from "@/components/section/Main";
+import PlaylistRoot from "@/components/section/PlaylistRoot";
 
 export default function Home() {
   return (
-    <main>
-      <Main />
+    <main className="flex justify-center items-center">
+      <PlaylistRoot />
     </main>
   );
 }
