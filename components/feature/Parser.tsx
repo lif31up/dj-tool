@@ -83,7 +83,7 @@ function Parser({ atom }: { atom: RecoilState<string[]> }) {
           Parse
         </button>
       </div>
-      <div className="flex-col gap-2">
+      <div className="w-full h-fit  p-1  grid gap-1  text-xs overflow-scroll">
         {parsedListRef.current.map((element: ParsedElement, index: number) => (
           <Element key={index} title={element.title} />
         ))}

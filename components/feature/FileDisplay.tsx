@@ -33,7 +33,7 @@ export function Element({ title }: ElementProps) {
   };
   return (
     <div className={`${style.xl} ${style.base}`}>
-      <h1>{title.replace("\n", " - ")}</h1>
+      <h1 className="text-xs">{title.replace("\n", " - ")}</h1>
     </div>
   );
 }
