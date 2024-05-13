@@ -1,4 +1,3 @@
-import { wait } from "next/dist/lib/wait";
 import { isOfType } from "@/utils/DefaultProps";
 
 export interface cobaltRequest {
@@ -14,7 +13,6 @@ export interface cobaltRequest {
   twitterGif: boolean;
   vimeoDash: boolean;
 }
-
 export interface cobaltResponse {
   status: string;
   text: string;
@@ -24,58 +22,36 @@ export interface cobaltResponse {
   audio: string;
 }
 
-async function CBLTFetcher(data: cobaltRequest): Promise<string | Error> {
+type CBLTFetcherData = {
+  url: string;
+};
+async function CBLTFetcher(data: CBLTFetcherData): Promise<string> {
+  dataWithoutUrl.url = data.url;
   const option: RequestInit = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(dataWithoutUrl),
   }; // option
   return await fetch("https://co.wuk.sh/api/json", option)
-    .then((res: Response) => {
-      if (!res.ok) throw new Error("CBLTFetcher: res is not ok");
-      return res.json();
-    })
+    .then((response: Response) => {
+      if (!response.ok)
+        throw new Error(
+          `CBLTFetcher: ${response.status}, ${response.statusText}`
+        );
+      return response.json();
+    }) // then()
     .then((data: cobaltResponse) => {
       return data.url;
-    })
+    }) // then()
     .catch((error) => {
-      return error;
+      console.log(error.message);
+      return "error";
     }); // fetch()
 } // CBLTFetcher()
-
-type CBLTFetcherWithIdsData = {
-  videoIds: string[];
-  index: number;
-};
-export async function CBLTFetcherWithIds(
-  data: CBLTFetcherWithIdsData,
-  iterator: number = 0
-): Promise<string | Error> {
-  let CBLTUrl: string | Error = new Error("CBLTFetcherWithIds: unknown error.");
-
-  if (!isOfType<CBLTFetcherWithIdsData>(data)) {
-    CBLTUrl.message = "CBLTFetcherWithIds: argument's type is wrong.";
-    return CBLTUrl;
-  } // if
-
-  const { videoIds, index }: CBLTFetcherWithIdsData = data;
-  if (iterator >= videoIds.length) return "EOI";
-  dataWithoutUrl.url = "https://www.youtube.com/watch?v=" + videoIds[iterator];
-  await wait(5500 * index);
-  CBLTUrl = await CBLTFetcher(dataWithoutUrl).catch((error) => {
-    return CBLTFetcherWithIds(
-      { videoIds: videoIds, index: index },
-      iterator + 1
-    ); // CBLTFetcherWithIds()
-  }); // CBLTFetcher()
-  if (CBLTUrl === "EOI") {
-    return new Error("CBLTFetcherWithIds: can't iterate anymore.");
-  } // if
-  return CBLTUrl;
-} // CBLTFetcherWithIds():
+export default CBLTFetcher;
 
 export const dataWithoutUrl: cobaltRequest = {
   url: "insert_your_url",
