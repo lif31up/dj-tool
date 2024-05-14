@@ -1,6 +1,4 @@
-import { isOfType } from "@/utils/DefaultProps";
-
-export interface cobaltRequest {
+export interface CBLTRequest {
   url: string;
   vCodec: string;
   vQuality: string;
@@ -53,7 +51,14 @@ async function CBLTFetcher(data: CBLTFetcherData): Promise<string> {
 } // CBLTFetcher()
 export default CBLTFetcher;
 
-export const dataWithoutUrl: cobaltRequest = {
+type CBLTFetchWithIdsData = {
+  ids: string[];
+};
+export async function CBLTFetchWithIds(data: CBLTFetchWithIdsData) {
+  const { ids }: CBLTFetchWithIdsData = data;
+}
+
+export const dataWithoutUrl: CBLTRequest = {
   url: "insert_your_url",
   vCodec: "h264",
   vQuality: "720",

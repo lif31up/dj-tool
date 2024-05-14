@@ -1,24 +1,29 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { RecoilState, useRecoilValue } from "recoil";
-import YTFetcher from "@/utils/youtube/YoutubeRequest";
-import CBLTFetcher from "@/utils/cobalt/CobaltRequest";
+import YTFetcher from "@/utils/YTRequest";
+import CBLTFetcher from "@/utils/CBLTRequest";
 import { wait } from "next/dist/lib/wait";
 import { Element } from "@/components/feature/FileDisplay";
 
 type ParsedElement = {
   title: string;
   videoIds: string[];
+  isDownloaded: boolean;
 };
-
 function Parser({ atom }: { atom: RecoilState<string[]> }) {
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [isParsed, setIsParsed] = useState<boolean>(false);
+  const [localIndex, setLocalIndex] = useState<number>(0);
   const playlist: string[] = useRecoilValue(atom);
   const parsedListRef = useRef<ParsedElement[]>([]);
   const inputId: string = "parser-input-0";
+  useEffect(() => {
+    parsedListRef.current = [];
+    setIsParsed(false);
+    setLocalIndex(0);
+  }, [playlist]);
   const clickHandler = () => {
-    setIsLoaded(false);
     const inputElement: HTMLInputElement | HTMLElement | null =
       document.getElementById(inputId);
     if (!inputElement) return;
@@ -28,8 +33,8 @@ function Parser({ atom }: { atom: RecoilState<string[]> }) {
       return () => {
         console.log("key is too short.");
       };
-    console.log(playlist);
     const newList: ParsedElement[] = [];
+    setIsParsed(false);
     const promiseArray: Promise<void>[] = playlist.map(
       async (title: string): Promise<void> => {
         console.log(title);
@@ -44,7 +49,11 @@ function Parser({ atom }: { atom: RecoilState<string[]> }) {
         return YTFetcher({ pattern: title, key: key }).then(
           (videoIds: string[]) => {
             if (videoIds[0] === "error") return;
-            newList.push({ title: title, videoIds: videoIds });
+            newList.push({
+              title: title,
+              videoIds: videoIds,
+              isDownloaded: false,
+            });
           }
         );
       }
@@ -52,21 +61,24 @@ function Parser({ atom }: { atom: RecoilState<string[]> }) {
     console.log("parse started...");
     Promise.all(promiseArray).then(() => {
       parsedListRef.current = [...parsedListRef.current, ...newList];
-      setIsLoaded(true);
+      setIsParsed(true);
     });
   };
   const downloadHandler = () => {
     parsedListRef.current.forEach(
       async (element: ParsedElement, index: number) => {
+        if (element.isDownloaded) return;
         await wait(index * 5500);
         CBLTFetcher({
-          url: `https://www.youtube.com/watch?v=${element.videoIds[0]}`,
+          url: `https://www.youtube.com/watch?v=${element.videoIds[localIndex]}`,
         }).then((url: string) => {
           if (url === "error") return;
+          element.isDownloaded = true;
           window.open(url);
         });
       }
     );
+    setLocalIndex(localIndex + 1);
   };
   return (
     <div className={"relative w-full h-full"}>
@@ -85,7 +97,11 @@ function Parser({ atom }: { atom: RecoilState<string[]> }) {
       </div>
       <div className="w-full h-fit  p-1  grid gap-1  text-xs overflow-scroll">
         {parsedListRef.current.map((element: ParsedElement, index: number) => (
-          <Element key={index} title={element.title} />
+          <Element
+            key={index}
+            title={element.title}
+            isDownloaded={element.isDownloaded}
+          />
         ))}
       </div>
       <div className="absolute bottom-0 right-0 p-2">

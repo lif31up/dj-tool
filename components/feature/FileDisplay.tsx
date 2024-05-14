@@ -25,14 +25,19 @@ export default FileDisplay;
 
 interface ElementProps extends DefaultProps<never> {
   title: string;
+  isDownloaded?: boolean;
 }
-export function Element({ title }: ElementProps) {
+export function Element({ title, isDownloaded = true }: ElementProps) {
   const style: TailwindProperties = {
     xl: "h-8 w-full  px-2",
     base: "flex items-center  bg-green-800  text-green-200",
   };
   return (
-    <div className={`${style.xl} ${style.base}`}>
+    <div
+      className={`${style.xl} ${style.base} ${
+        isDownloaded ? "" : "opacity-50"
+      }`}
+    >
       <h1 className="text-xs">{title.replace("\n", " - ")}</h1>
     </div>
   );

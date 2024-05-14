@@ -6,8 +6,8 @@ import React from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "untitled",
-  description: "no description",
+  title: "LIF31UP's Spotify Playlist Downloader for DJ",
+  description: "lif31up designed and built",
 };
 
 export default function RootLayout({
