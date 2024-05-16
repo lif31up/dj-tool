@@ -12,11 +12,11 @@ function FileDisplay({ className, playlist }: FileDisplayProps) {
     elements.push(<Element title={title} key={index} />);
   });
   const style: TailwindProperties = {
-    xl: "w-full h-fit  p-1  text-xs",
-    base: "grid gap-1",
+    xl: "w-full h-full  p-1  text-xs",
+    base: "grid gap-1 flex-wrap",
   };
   return (
-    <div className="w-full h-full overflow-scroll">
+    <div className="w-full h-full overflow-scroll scroll-smooth">
       <div className={`${style.xl} ${style.base} ${className}`}>{elements}</div>
     </div>
   );
@@ -38,7 +38,7 @@ export function Element({ title, isDownloaded = true }: ElementProps) {
         isDownloaded ? "" : "opacity-50"
       }`}
     >
-      <h1 className="text-xs">{title.replace("\n", " - ")}</h1>
+      <h1 className="text-xs line-clamp-1">{title.replace("\n", " - ")}</h1>
     </div>
   );
 }

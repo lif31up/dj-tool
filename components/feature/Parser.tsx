@@ -6,6 +6,7 @@ import YTFetcher from "@/utils/YTRequest";
 import CBLTFetcher from "@/utils/CBLTRequest";
 import { wait } from "next/dist/lib/wait";
 import { Element } from "@/components/feature/FileDisplay";
+import TailwindProperties from "@/styles/TailwindProperties";
 
 type ParsedElement = {
   title: string;
@@ -80,9 +81,16 @@ function Parser({ atom }: { atom: RecoilState<string[]> }) {
     );
     setLocalIndex(localIndex + 1);
   };
+  const style: TailwindProperties = {
+    xl: "w-full h-full  grid",
+    base: "relative",
+  };
   return (
-    <div className={"relative w-full h-full"}>
-      <div className="w-full h-12  flex items-center justify-start gap-2 px-4">
+    <div className={`${style.xl} ${style.base}`}>
+      <div
+        title="panel"
+        className="w-full h-12  flex items-center justify-start gap-2 px-4"
+      >
         <input
           id={inputId}
           type="text"
@@ -95,7 +103,7 @@ function Parser({ atom }: { atom: RecoilState<string[]> }) {
           Parse
         </button>
       </div>
-      <div className="w-full h-fit  p-1  grid gap-1  text-xs overflow-scroll">
+      <div className="w-full h-full  p-1  grid gap-1  text-xs overflow-scroll scroll-smooth">
         {parsedListRef.current.map((element: ParsedElement, index: number) => (
           <Element
             key={index}
