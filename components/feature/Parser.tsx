@@ -15,15 +15,20 @@ type ParsedElement = {
 };
 function Parser({ atom }: { atom: RecoilState<string[]> }) {
   const [isParsed, setIsParsed] = useState<boolean>(false);
+  const [download, setDownload] = useState<boolean>(false);
   const [localIndex, setLocalIndex] = useState<number>(0);
+  const [downIndex, setDownIndex] = useState<number>(0);
   const playlist: string[] = useRecoilValue(atom);
   const parsedListRef = useRef<ParsedElement[]>([]);
-  const inputId: string = "parser-input-0";
+
   useEffect(() => {
     parsedListRef.current = [];
     setIsParsed(false);
     setLocalIndex(0);
   }, [playlist]);
+
+  const inputId: string = "parser-input-0";
+
   const clickHandler = () => {
     const inputElement: HTMLInputElement | HTMLElement | null =
       document.getElementById(inputId);
@@ -63,6 +68,26 @@ function Parser({ atom }: { atom: RecoilState<string[]> }) {
     Promise.all(promiseArray).then(() => {
       parsedListRef.current = [...parsedListRef.current, ...newList];
       setIsParsed(true);
+    });
+  };
+  const downloadAllHandler = () => {
+    if (download) return;
+    setDownload(true);
+    const promiseArray: Promise<void>[] = parsedListRef.current.map(
+      async (element: ParsedElement, index: number) => {
+        if (element.isDownloaded) return;
+        await wait(index * 5500);
+        CBLTFetcher({
+          url: `https://www.youtube.com/watch?v=${element.videoIds[localIndex]}`,
+        }).then((url: string) => {
+          if (url === "error") return;
+          element.isDownloaded = true;
+          window.open(url);
+        });
+      }
+    );
+    Promise.all(promiseArray).then(() => {
+      setDownload(false);
     });
   };
   const downloadHandler = () => {
@@ -114,8 +139,10 @@ function Parser({ atom }: { atom: RecoilState<string[]> }) {
       </div>
       <div className="absolute bottom-0 right-0 p-2">
         <button
-          onClick={downloadHandler}
-          className="w-12 h-12  flex  justify-center items-center  rounded-full  text-green-500 bg-green-900"
+          onClick={downloadAllHandler}
+          className={`w-12 h-12  flex  justify-center items-center  rounded-full  text-green-500 bg-green-900 ${
+            download ? "opacity-50 select-none" : ""
+          }`}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -140,6 +167,13 @@ function Parser({ atom }: { atom: RecoilState<string[]> }) {
           </svg>
         </button>
       </div>
+      {download ? (
+        <section className="fixed z-50 w-screen h-screen top-0 left-0">
+          downloading
+        </section>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
