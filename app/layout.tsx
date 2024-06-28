@@ -6,7 +6,7 @@ import React from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "LIF31UP's Spotify Playlist Downloader for DJ",
+  title: "LIF31UP's Spotify Playlist PlaylistDownloader for DJ",
   description: "lif31up designed and built",
 };
 
