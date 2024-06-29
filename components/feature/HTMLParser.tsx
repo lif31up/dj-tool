@@ -77,5 +77,5 @@ function STATUS({ status, className }: STATUSProps) {
     >
       {text}
     </p>
-  );
-}
+  ); // return
+} // STATUS
