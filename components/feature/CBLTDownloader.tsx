@@ -30,15 +30,14 @@ function CBLTDownloader({ playlistAtom, className }: CBLTDownloaderProps) {
     box: "",
     layout: "",
   }; // tailname
-  const downloading_tailname: string = "";
+  const downloading_tailname: string = "pointer-events-none opacity-50";
 
   return (
-    <div
-      className={`${TailClassName(tailname)} ${className} ${
-        downloading ? downloading_tailname : ""
-      }`}
-    >
-      <button className="p-2 bg-gray-800" onClick={clickHandler}>
+    <div className={`${TailClassName(tailname)}`}>
+      <button
+        className={`p-2 bg-gray-800 ${downloading ? downloading_tailname : ""}`}
+        onClick={clickHandler}
+      >
         내려받기
       </button>
     </div>
