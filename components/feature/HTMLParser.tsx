@@ -16,6 +16,7 @@ function HTMLParser({ playlistAtom, className }: HTMLParserProps) {
   const [status, setStatus] = useState<string>("init");
 
   const changeHandler = (event: ChangeEvent<any>) => {
+    setPlaylist([]); // init the Playlist
     const file = event.target.files[0];
     const reader: FileReader = new FileReader();
     reader.onload = (progressEvent: ProgressEvent<any>) => {
