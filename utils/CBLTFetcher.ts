@@ -64,7 +64,7 @@ const dataWithoutUrl: CBLTFetcher = {
   vCodec: "h264",
   vQuality: "720",
   aFormat: "mp3",
-  filenamePattern: "pretty",
+  filenamePattern: "basic",
   isAudioOnly: true,
   isAudioMuted: false,
   dubLang: false,
