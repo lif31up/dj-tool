@@ -1,11 +1,11 @@
+"use client";
+
 import TailProperties, { TailClassName } from "@/styles/TailwindProperties";
 import DefaultProps from "@/utils/DefaultProps";
 import { RecoilState, useRecoilState } from "recoil";
-import { PlaylistElement, trackCmp } from "@/utils/PlaylistAtom";
+import { PlaylistElement } from "@/utils/PlaylistAtom";
 import YTFetcherAll from "@/utils/YTFetcher";
 import { useRef, useState } from "react";
-import { Simulate } from "react-dom/test-utils";
-import play = Simulate.play;
 import PlaylistDisplay from "@/components/feature/PlaylistDisplay";
 
 export default IDCollector;

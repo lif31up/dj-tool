@@ -1,3 +1,5 @@
+"use client";
+
 import { RecoilState, useRecoilState, useRecoilValue } from "recoil";
 import { PlaylistElement, trackCmp } from "@/utils/PlaylistAtom";
 import DefaultProps from "@/utils/DefaultProps";

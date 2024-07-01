@@ -1,3 +1,5 @@
+"use client";
+
 import CBLTFetcherAll from "@/utils/CBLTFetcher";
 import DefaultProps from "@/utils/DefaultProps";
 import { RecoilState, useRecoilValue } from "recoil";

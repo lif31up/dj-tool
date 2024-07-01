@@ -1,3 +1,5 @@
+"use client";
+
 import TailProperties, { TailClassName } from "@/styles/TailwindProperties";
 import DefaultProps from "@/utils/DefaultProps";
 import parseHTML, { ParseHTML_ERROR } from "@/utils/ParseHTML";
