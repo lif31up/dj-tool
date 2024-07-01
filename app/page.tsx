@@ -8,14 +8,14 @@ import { PlaylistAtom } from "@/utils/PlaylistAtom";
 
 export default function Home() {
   return (
-    <main>
-      <div className="w-96">
+    <main className="w-full h-full  grid justify-center items-center">
+      <section style={{ width: "320px", height: "fit-content" }}>
         <RecoilRoot>
           <HTMLParser playlistAtom={PlaylistAtom} />
           <IDCollector playlistAtom={PlaylistAtom} />
           <CBLTDownloader playlistAtom={PlaylistAtom} />
         </RecoilRoot>
-      </div>
+      </section>
     </main>
   );
 } // Home

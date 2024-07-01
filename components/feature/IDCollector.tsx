@@ -37,14 +37,14 @@ function IDCollector({ playlistAtom, className }: IDCollectorProps) {
   const inputId: string = "key-input-0";
 
   const tailname: TailProperties = {
-    box: "p-1 mx-2 w-auto h-fit",
+    box: "w-full p-1",
     layout: "grid gap-2",
     bg_border: "bg-green-800",
   }; // tailname
 
   return (
     <div className={`${TailClassName(tailname)} ${className}`}>
-      <div className="flex h-8 gap-2">
+      <div className="flex h-6 gap-2">
         <input
           id={inputId}
           className="w-full h-full  px-2  text-md text-green-300  bg-teal-700  border-teal-800 border"
@@ -52,7 +52,7 @@ function IDCollector({ playlistAtom, className }: IDCollectorProps) {
         />
         <button
           onClick={clickHandler}
-          className="text-xs font-bold text-teal-100  bg-green-600  w-16 h-full"
+          className="w-16 h-full  text-xs font-bold text-teal-100  bg-green-600 border-2 border-teal-100"
         >
           수집
         </button>

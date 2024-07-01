@@ -30,8 +30,8 @@ function HTMLParser({ playlistAtom, className }: HTMLParserProps) {
 
   const parserId: string = "parser-id-0";
   const tailname: TailProperties = {
-    box: "p-2",
-    layout: "grid gap-2",
+    box: "p-1",
+    layout: "grid gap-1",
     bg_border: "",
     typo: "",
   }; // tailname
@@ -42,11 +42,16 @@ function HTMLParser({ playlistAtom, className }: HTMLParserProps) {
         onChange={changeHandler}
         type="file"
         accept="html"
-        className="w-full text-sm text-green-200"
+        className="w-full h-6 text-sm text-green-200"
       />
-      <h2 className="text-xs font-medium text-teal-100">
-        분석된 곡의 총 수: {playlist.length}
-      </h2>
+      <div className="p-2">
+        <h2 className="text-xs font-medium text-teal-100">
+          raw element: {playlist.length}
+        </h2>
+        <h2 className="text-xs font-medium text-teal-100">
+          total estimate time: 10s
+        </h2>
+      </div>
       <div id={parserId} />
     </div>
   ); // return

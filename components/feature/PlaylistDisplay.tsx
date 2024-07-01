@@ -81,9 +81,13 @@ interface IndexButtonProps extends DefaultProps<PlaylistElement> {
   indexHandler: (data: PlaylistElement) => void;
 }
 function IndexButton({ data, index, indexHandler }: IndexButtonProps) {
+  const tailname: TailProperties = {
+    box: "w-4 h-4",
+  }; // tailname
   if (!data) return <></>;
   return (
     <button
+      className={`${TailClassName(tailname)}`}
       onClick={() => {
         indexHandler({
           ...data, //@ts-ignore

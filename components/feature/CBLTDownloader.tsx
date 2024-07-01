@@ -16,8 +16,6 @@ function CBLTDownloader({ playlistAtom, className }: CBLTDownloaderProps) {
   const playlist = useRecoilValue<PlaylistElement[]>(playlistAtom);
   const [downloading, setDownloading] = useState<boolean>(false);
 
-  if (playlist.length < 1) return <></>;
-
   const clickHandler = (): void => {
     if (downloading) return;
     setDownloading(true);
@@ -31,19 +29,21 @@ function CBLTDownloader({ playlistAtom, className }: CBLTDownloaderProps) {
   }; // clickHandler
 
   const tailname: TailProperties = {
-    box: "",
+    box: "w-full h-10",
     layout: "",
+    bg_border: "bg-green-900 hover:bg-green-700",
+    typo: "text-sm font-bold text-teal-100",
   }; // tailname
   const downloading_tailname: string = "pointer-events-none opacity-50";
 
   return (
-    <div className={`${TailClassName(tailname)}`}>
-      <button
-        className={`p-2 bg-gray-800 ${downloading ? downloading_tailname : ""}`}
-        onClick={clickHandler}
-      >
-        내려받기
-      </button>
-    </div>
+    <button
+      className={`${TailClassName(tailname)} ${
+        downloading || playlist.length < 1 ? downloading_tailname : ""
+      }`}
+      onClick={clickHandler}
+    >
+      내려받기
+    </button>
   ); // return
 } // CBLTDownloader
