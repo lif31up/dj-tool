@@ -49,7 +49,7 @@ function HTMLParser({ playlistAtom, className }: HTMLParserProps) {
           raw element: {playlist.length}
         </h2>
         <h2 className="text-xs font-medium text-teal-100">
-          total estimate time: 10s
+          total estimate time: {playlist.length * 6}s
         </h2>
       </div>
       <div id={parserId} />
