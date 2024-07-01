@@ -43,7 +43,7 @@ function CBLTDownloader({ playlistAtom, className }: CBLTDownloaderProps) {
       }`}
       onClick={clickHandler}
     >
-      내려받기
+      DOWNLOAD
     </button>
   ); // return
 } // CBLTDownloader
