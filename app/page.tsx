@@ -9,10 +9,7 @@ import { PlaylistAtom } from "@/utils/PlaylistAtom";
 export default function Home() {
   return (
     <main className="w-full h-full  grid justify-center items-center">
-      <section
-        style={{ width: "320px", height: "fit-content" }}
-        className="outline-2 outline-teal-100"
-      >
+      <section style={{ width: "320px", height: "fit-content" }}>
         <RecoilRoot>
           <HTMLParser playlistAtom={PlaylistAtom} />
           <IDCollector playlistAtom={PlaylistAtom} />
