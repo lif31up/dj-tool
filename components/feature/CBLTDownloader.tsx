@@ -14,6 +14,8 @@ function CBLTDownloader({ playlistAtom, className }: CBLTDownloaderProps) {
   const playlist = useRecoilValue<PlaylistElement[]>(playlistAtom);
   const [downloading, setDownloading] = useState<boolean>(false);
 
+  if (playlist.length < 1) return <></>;
+
   const clickHandler = (): void => {
     if (downloading) return;
     setDownloading(true);

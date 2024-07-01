@@ -7,8 +7,6 @@ export function trackCmp(
   return item0.title === item1.title && item0.artist === item1.artist;
 } // trackCmp
 
-export const VIDEOIDS_ERROR = [];
-
 export type PlaylistElement = {
   title: string;
   artist: string;
@@ -24,14 +22,3 @@ export const PlaylistAtom = atom<PlaylistElement[]>({
   key: "playlist-atom",
   default: [],
 }); // playlistAtom
-
-export function isPlaylist(playlist: PlaylistElement[]): Boolean {
-  return playlist.length !== 0;
-} // isPlaylist
-
-export function isValidElement(element: PlaylistElement): boolean {
-  return element.snippets.length > 0;
-} // isValidElement
-export function isValidSnippet(snippet: Snippet): boolean {
-  return snippet.videoId.length > 0 || snippet.name.length > 0;
-} // isValidSnippet
