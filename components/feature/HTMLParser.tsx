@@ -13,7 +13,6 @@ interface HTMLParserProps extends DefaultProps<never> {
 function HTMLParser({ playlistAtom, className }: HTMLParserProps) {
   const [playlist, setPlaylist] =
     useRecoilState<PlaylistElement[]>(playlistAtom);
-  const [status, setStatus] = useState<string>("init");
 
   const changeHandler = (event: ChangeEvent<any>) => {
     setPlaylist([]); // init the Playlist
@@ -24,10 +23,7 @@ function HTMLParser({ playlistAtom, className }: HTMLParserProps) {
       const buffer: PlaylistElement[] = parseHTML(parserId, content);
       if (buffer !== ParseHTML_ERROR) setPlaylist(buffer);
     }; // onload
-    if (file) {
-      reader.readAsText(file);
-      setStatus("none");
-    } else setStatus("error");
+    if (file) reader.readAsText(file);
   }; // changeHandler
 
   const parserId: string = "parser-id-0";
@@ -38,7 +34,6 @@ function HTMLParser({ playlistAtom, className }: HTMLParserProps) {
     typo: "",
   }; // tailname
 
-  const estimateTime: number = playlist.length * 5 + 60;
   return (
     <div className={`${TailClassName(tailname)} ${className}`}>
       <input
@@ -47,12 +42,9 @@ function HTMLParser({ playlistAtom, className }: HTMLParserProps) {
         accept="html"
         className="w-full text-sm text-green-200"
       />
-      <p className="text-xs font-medium text-teal-100">
+      <h2 className="text-xs font-medium text-teal-100">
         분석된 곡의 총 수: {playlist.length}
-      </p>
-      <p className="f">
-        예상 소요시간: {Math.floor(estimateTime / 60)}m {estimateTime % 60}s
-      </p>
+      </h2>
       <div id={parserId} />
     </div>
   ); // return

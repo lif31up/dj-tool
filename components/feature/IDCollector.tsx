@@ -57,14 +57,6 @@ function IDCollector({ playlistAtom, className }: IDCollectorProps) {
           수집
         </button>
       </div>
-      <p className="text-xs font-bold text-teal-100">
-        수집된 곡들:{" "}
-        {
-          playlist.filter((item: PlaylistElement): boolean => {
-            return item.snippets.length > 1;
-          }).length
-        }
-      </p>
       <>{collected ? <PlaylistDisplay playlistAtom={playlistAtom} /> : <></>}</>
     </div>
   ); // return

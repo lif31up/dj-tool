@@ -32,7 +32,7 @@ function PlaylistDisplay({ playlistAtom, className }: PlaylistDisplayProps) {
 
 interface TrackProps extends DefaultProps<PlaylistElement> {
   playlistAtom: RecoilState<PlaylistElement[]>;
-}
+} // TrackProps
 function Track({ data, className, playlistAtom }: TrackProps) {
   const [playlist, setPlaylist] =
     useRecoilState<PlaylistElement[]>(playlistAtom);
