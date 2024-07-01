@@ -53,29 +53,7 @@ function HTMLParser({ playlistAtom, className }: HTMLParserProps) {
       <p className="f">
         예상 소요시간: {Math.floor(estimateTime / 60)}m {estimateTime % 60}s
       </p>
-      <STATUS status={status} />
       <div id={parserId} />
     </div>
   ); // return
 } // HTMLParser
-
-interface STATUSProps extends DefaultProps<never> {
-  status: string;
-}
-function STATUS({ status, className }: STATUSProps) {
-  let text: string = "오류가 발생했습니다.";
-  if (status === "none") text = "다음 단계로 넘어가세요.";
-  if (status === "init") text = "HTML 파일을 입력하세요.";
-
-  return (
-    <p
-      className={`py-1  text-xs ${
-        status === "init"
-          ? "bg-red-800 text-red-200"
-          : "bg-green-800 text-green-200"
-      } text-center`}
-    >
-      {text}
-    </p>
-  ); // return
-} // STATUS

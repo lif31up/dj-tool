@@ -20,7 +20,7 @@ function PlaylistDisplay({ playlistAtom, className }: PlaylistDisplayProps) {
 
   const tailname: TailProperties = {
     box: "",
-    layout: "grid gap-2",
+    layout: "grid gap-2n",
   }; // tailname
 
   return (
