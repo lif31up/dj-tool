@@ -1,4 +1,4 @@
-import { PlaylistElement, Snippet } from "@/utils/PlaylistAtom";
+import { PlaylistElement, Snippet } from "@/components/section/Main_Playlist";
 
 export default YTFetcherAll;
 

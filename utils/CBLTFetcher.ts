@@ -1,17 +1,17 @@
-import { PlaylistElement } from "@/utils/PlaylistAtom";
 import { wait } from "next/dist/lib/wait";
+import { PlaylistElement } from "@/components/section/Main_Playlist";
 
 export default CBLTFetcherAll;
 
 function CBLTFetcherAll(
   playlist: PlaylistElement[],
-  thenHandler: (data: string) => void
+  thenHandler: (data: string, index: number) => void
 ): Promise<void>[] {
   return playlist.map(
     async (element: PlaylistElement, index: number): Promise<void> => {
       await wait(index * 6000);
       await CBLTFetcher(element.snippets[element.index].videoId).then((data) =>
-        thenHandler(data)
+        thenHandler(data, index)
       );
     }
   );

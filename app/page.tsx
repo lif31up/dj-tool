@@ -1,21 +1,11 @@
 "use client";
 
-import HTMLParser from "@/components/feature/HTMLParser";
-import IDCollector from "@/components/feature/IDCollector";
-import CBLTDownloader from "@/components/feature/CBLTDownloader";
-import { RecoilRoot } from "recoil";
-import { PlaylistAtom } from "@/utils/PlaylistAtom";
+import Main_Playlist from "@/components/section/Main_Playlist";
 
 export default function Home() {
   return (
-    <main className="w-full h-full  grid justify-center items-center">
-      <section style={{ width: "320px", height: "fit-content" }}>
-        <RecoilRoot>
-          <HTMLParser playlistAtom={PlaylistAtom} />
-          <IDCollector playlistAtom={PlaylistAtom} />
-          <CBLTDownloader playlistAtom={PlaylistAtom} />
-        </RecoilRoot>
-      </section>
+    <main>
+      <Main_Playlist safe_mode={true} />
     </main>
   );
 } // Home
