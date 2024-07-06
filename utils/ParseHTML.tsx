@@ -1,4 +1,4 @@
-import { PlaylistElement } from "@/utils/PlaylistAtom";
+import { PlaylistElement } from "@/components/section/Main_Playlist";
 
 export default ParseHTML;
 
