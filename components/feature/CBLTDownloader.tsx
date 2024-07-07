@@ -3,7 +3,7 @@
 import CBLTFetcherAll from "@/utils/CBLTFetcher";
 import DefaultProps from "@/utils/DefaultProps";
 import { RecoilState, useRecoilValue } from "recoil";
-import { CSSProperties, ReactElement, useState } from "react";
+import { CSSProperties, ReactElement, useEffect, useState } from "react";
 import TailProperties, { TailClassName } from "@/styles/TailwindProperties";
 import { PlaylistElement } from "@/components/section/Main_Playlist";
 
@@ -14,12 +14,21 @@ interface CBLTDownloaderProps extends DefaultProps<never> {
 } // CBLTDownloaderProps
 function CBLTDownloader({ playlistAtom, className }: CBLTDownloaderProps) {
   const playlist = useRecoilValue<PlaylistElement[]>(playlistAtom);
-  const [downloading, setDownloading] = useState<boolean>(false);
+  const [isUnactive, setIsUnactive] = useState<boolean>(true);
   const [progressIndex, setProgressIndex] = useState<number>(0);
 
+  useEffect(() => {
+    if (
+      playlist.filter((element: PlaylistElement) => element.snippets.length > 0)
+        .length < 1
+    )
+      setIsUnactive(true);
+    else setIsUnactive(false);
+  }, [playlist]);
+
   const clickHandler = (): void => {
-    if (downloading) return;
-    setDownloading(true);
+    if (isUnactive) return;
+    setIsUnactive(true);
     setProgressIndex(0);
     const promiseArray: Promise<void>[] = CBLTFetcherAll(
       playlist,
@@ -28,7 +37,10 @@ function CBLTDownloader({ playlistAtom, className }: CBLTDownloaderProps) {
         setProgressIndex(index);
       } // thenHandler
     ); // clickHandler
-    Promise.all(promiseArray).then(() => setDownloading(false));
+    Promise.all(promiseArray).then(() => {
+      setIsUnactive(false);
+      setProgressIndex(0);
+    });
   }; // clickHandler
 
   const tailname: TailProperties = {
@@ -49,7 +61,7 @@ function CBLTDownloader({ playlistAtom, className }: CBLTDownloaderProps) {
         onClick={clickHandler}
         style={buttonStyle}
         className={
-          !downloading
+          !isUnactive
             ? "flex items-center justify-center font-bold bg-green-400 text-green-900"
             : "flex items-center justify-center font-bold bg-green-400 text-green-900 opacity-10 pointer-events-none"
         } // className
