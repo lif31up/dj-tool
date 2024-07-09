@@ -9,6 +9,8 @@ import CBLTDownloader from "@/components/feature/CBLTDownloader";
 import PlaylistDisplay from "@/components/feature/PlaylistDisplay";
 import { atom } from "recoil";
 import { CSSProperties } from "react";
+import SpareKeys from "@/components/feature/SpareKeys";
+import keys from "@/public/keys.json";
 
 export function trackCmp(
   item0: PlaylistElement,
@@ -56,10 +58,13 @@ function Main_Playlist({ className, safe_mode }: Main_PlaylistProps) {
   return (
     <RecoilRoot>
       <section className={`${TailClassName(tailname)} ${className}`}>
-        <div style={paneStyle}>
-          <HTMLParser playlistAtom={mainAtom} />
-          <IDCollector playlistAtom={mainAtom} />
-          <CBLTDownloader playlistAtom={mainAtom} />
+        <div className="w-fit h-fit">
+          <div style={paneStyle}>
+            <HTMLParser playlistAtom={mainAtom} />
+            <IDCollector playlistAtom={mainAtom} />
+            <CBLTDownloader playlistAtom={mainAtom} />
+          </div>
+          <SpareKeys data={keys} />
         </div>
         <div
           style={{ ...paneStyle, height: "auto" }}
