@@ -9,8 +9,11 @@ first, prepare your own Google Cloud Console Key and spotify playlist page's HTM
 4. click download button and wait to complete
 
 ### about more...
-this app has flowchart of the below.
 ```mermaid
-graph LR;
-  HTML -> Youtube -> Cobalt -> Downloading;
+graph LR
+  HTML --> tracks[/Tracks/]
+  tracks --> VideoIdSearch
+  VideoIdSearch --> videoIds[/snippets/]
+  videoIds --> CoblatDownload
 ```
+this app uses `coblat` to get download links, which is collected based on youtube videoIds. the videoIds come from Youtube Data V3 API and to use that it parses and extracts tracks' info from HTML you given.
