@@ -32,9 +32,9 @@ function CBLTDownloader({ playlistAtom, className }: CBLTDownloaderProps) {
     setProgressIndex(0);
     const promiseArray: Promise<void>[] = CBLTFetcherAll(
       playlist,
-      (data: string, index: number): void => {
-        if (data !== "") window.open(data);
-        else console.log(`element of ${index} failed to download.`)
+      (data: string | PlaylistElement, index: number): void => {
+        if (typeof data === "string") window.open(data);
+        else {console.log(data)}
         setProgressIndex(index);
       } // thenHandler
     ); // clickHandler

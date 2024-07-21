@@ -35,7 +35,7 @@ async function YTFetcher(
         artist: artist,
         index: 0,
         snippets: data.items.map((item): Snippet => {
-          return { name: item.snippet.title, videoId: item.id.videoId };
+          return { name: item.snippet.title, videoId: item.id.videoId, fail: 0 };
         }), // snippets
       }; // return
     }) // then
