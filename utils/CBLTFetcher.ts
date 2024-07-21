@@ -1,23 +1,24 @@
 import { wait } from "next/dist/lib/wait";
-import { PlaylistElement } from "@/components/section/Main_Playlist";
+import {PlaylistElement, snippetGetIndex} from "@/components/section/Main_Playlist";
 
 export default CBLTFetcherAll;
 
 function CBLTFetcherAll(
   playlist: PlaylistElement[],
-  thenHandler: (data: string, index: number) => void
+  thenHandler: (data: string | PlaylistElement, index: number) => void
 ): Promise<void>[] {
   return playlist.map(
     async (element: PlaylistElement, index: number): Promise<void> => {
       await wait(index * 6000);
-      await CBLTFetcher(element.snippets[element.index].videoId).then((data) =>
+      await CBLTFetcher(element.snippets[element.index].videoId, element).then((data: string | PlaylistElement) =>
         thenHandler(data, index)
       );
     }
   );
 } // CBLTFetcherAll
 
-export async function CBLTFetcher(videoId: string): Promise<string> {
+const ERROR = "";
+export async function CBLTFetcher(videoId: string, origin: PlaylistElement): Promise<string | PlaylistElement> {
   dataWithoutUrl.url = `https://www.youtube.com/watch?v=${videoId}`;
   const option: RequestInit = {
     method: "POST",
@@ -40,8 +41,11 @@ export async function CBLTFetcher(videoId: string): Promise<string> {
       return data.url;
     }) // then()
     .catch((error) => {
-      console.log(error.message);
-      return "";
+      console.assert(error.message)
+      const failedIndex = snippetGetIndex(videoId, origin)
+      const newSnippets = [... origin.snippets]
+      newSnippets[failedIndex].fail = 1
+      return {...origin, snippets: newSnippets}
     }); // fetch()
 } // CBLTFetcher()
 

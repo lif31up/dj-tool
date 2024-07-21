@@ -107,7 +107,7 @@ function IndexButton({ data, index, indexHandler }: IndexButtonProps) {
   if (!data) return <></>;
   return (
     <button
-      className={`${TailClassName(tailname)}`}
+      className={`${TailClassName(tailname)} ${data.snippets[index].fail ? "bg-red" : ""}`}
       onClick={() => {
         indexHandler({
           ...data, //@ts-ignore

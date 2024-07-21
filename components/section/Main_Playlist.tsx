@@ -19,6 +19,12 @@ export function trackCmp(
   return item0.title === item1.title && item0.artist === item1.artist;
 } // trackCmp
 
+export function snippetGetIndex(videoId: string, data: PlaylistElement): number{
+  let get_index: number = 0;
+  data.snippets.forEach((snippet, index) => {if (snippet.videoId === videoId) get_index = index})
+  return get_index;
+} // snippetGetIndex
+
 export type PlaylistElement = {
   title: string;
   artist: string;
@@ -29,6 +35,7 @@ export type PlaylistElement = {
 export type Snippet = {
   name: string;
   videoId: string;
+  fail: number;
 }; // PlaylistElement
 
 const PlaylistAtom = atom<PlaylistElement[]>({
