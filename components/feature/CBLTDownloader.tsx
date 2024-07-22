@@ -2,7 +2,7 @@
 
 import CBLTFetcherAll from "@/utils/CBLTFetcher";
 import DefaultProps from "@/utils/DefaultProps";
-import { RecoilState, useRecoilValue } from "recoil";
+import {RecoilState, useRecoilState, useRecoilValue} from "recoil";
 import { CSSProperties, ReactElement, useEffect, useState } from "react";
 import TailProperties, { TailClassName } from "@/styles/TailwindProperties";
 import { PlaylistElement } from "@/components/section/Main_Playlist";
@@ -11,9 +11,11 @@ export default CBLTDownloader;
 
 interface CBLTDownloaderProps extends DefaultProps<never> {
   playlistAtom: RecoilState<PlaylistElement[]>;
+  contextAtom: RecoilState<boolean>;
 } // CBLTDownloaderProps
-function CBLTDownloader({ playlistAtom, className }: CBLTDownloaderProps) {
+function CBLTDownloader({ playlistAtom, contextAtom, className }: CBLTDownloaderProps) {
   const playlist = useRecoilValue<PlaylistElement[]>(playlistAtom);
+  const [context, setContext] = useRecoilState<boolean>(contextAtom);
   const [isUnactive, setIsUnactive] = useState<boolean>(true);
   const [progressIndex, setProgressIndex] = useState<number>(0);
 
@@ -29,6 +31,7 @@ function CBLTDownloader({ playlistAtom, className }: CBLTDownloaderProps) {
   const clickHandler = (): void => {
     if (isUnactive) return;
     setIsUnactive(true);
+    setContext(true);
     setProgressIndex(0);
     const promiseArray: Promise<void>[] = CBLTFetcherAll(
       playlist,
@@ -41,6 +44,7 @@ function CBLTDownloader({ playlistAtom, className }: CBLTDownloaderProps) {
     Promise.all(promiseArray).then(() => {
       setIsUnactive(false);
       setProgressIndex(0);
+      setContext(false);
     });
   }; // clickHandler
 

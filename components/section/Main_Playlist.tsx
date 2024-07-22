@@ -69,7 +69,7 @@ function Main_Playlist({ className, safe_mode }: Main_PlaylistProps) {
           <div style={paneStyle}>
             <HTMLParser playlistAtom={mainAtom} />
             <IDCollector playlistAtom={mainAtom} />
-            <CBLTDownloader playlistAtom={mainAtom} />
+            <CBLTDownloader playlistAtom={mainAtom} contextAtom={ContextAtom} />
           </div>
           <SpareKeys data={keys} />
         </div>
@@ -77,10 +77,15 @@ function Main_Playlist({ className, safe_mode }: Main_PlaylistProps) {
           style={{ ...paneStyle, height: "auto" }}
           className="overflow-scroll"
         >
-          <PlaylistDisplay playlistAtom={mainAtom} />
+          <PlaylistDisplay playlistAtom={mainAtom} contextAtom={ContextAtom}/>
         </div>
       </section>
     </RecoilRoot>
   );
 } // Main_Playlist
 export default Main_Playlist;
+
+const ContextAtom = atom<boolean>({
+  key: "playlist-atom",
+  default: false,
+}); // playlistAtom

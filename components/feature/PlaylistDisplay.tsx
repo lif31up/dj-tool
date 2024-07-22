@@ -10,8 +10,10 @@ export default PlaylistDisplay;
 
 interface PlaylistDisplayProps extends DefaultProps<never> {
   playlistAtom: RecoilState<PlaylistElement[]>;
+  contextAtom: RecoilState<boolean>;
 } // PlaylistDisplayProps
-function PlaylistDisplay({ playlistAtom, className }: PlaylistDisplayProps) {
+function PlaylistDisplay({ playlistAtom, contextAtom, className }: PlaylistDisplayProps) {
+  const context = useRecoilValue(contextAtom);
   const playlist = useRecoilValue<PlaylistElement[]>(playlistAtom);
 
   const nodeListOfTrack: ReactElement[] = playlist.map(
@@ -26,7 +28,7 @@ function PlaylistDisplay({ playlistAtom, className }: PlaylistDisplayProps) {
   }; // tailname
 
   return (
-    <div className={`${TailClassName(tailname)} ${className}`}>
+    <div className={`${TailClassName(tailname)} ${className} ${context ? "select-none opacity-50" : ""}`}>
       {nodeListOfTrack}
     </div>
   ); // return
@@ -107,7 +109,7 @@ function IndexButton({ data, index, indexHandler }: IndexButtonProps) {
   if (!data) return <></>;
   return (
     <button
-      className={`${TailClassName(tailname)} ${data.snippets[index].fail ? "bg-red" : ""}`}
+      className={`${TailClassName(tailname)} ${data.snippets[index].fail ? "bg-red select-none opacity-25" : ""}`}
       onClick={() => {
         indexHandler({
           ...data, //@ts-ignore
