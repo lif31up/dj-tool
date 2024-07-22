@@ -29,6 +29,7 @@ function IDCollector({ playlistAtom, className }: IDCollectorProps) {
     ); // promiseArray
     Promise.all(promiseArray).then((): void => {
       setPlaylist(playlistRef.current);
+      console.log(playlist);
     }); // Promise.all
   }; // clickHandler
 
@@ -44,6 +45,9 @@ function IDCollector({ playlistAtom, className }: IDCollectorProps) {
   const collectedPlaylist = playlist.filter(
     (element: PlaylistElement) => element.snippets.length > 0
   ); // filter
+
+  const secs: number = collectedPlaylist.length * 6;
+  const date: string = `${Math.round(secs / 60)}m ${secs % 60}s`
 
   return (
     <div className={`${TailClassName(tailname)} ${className}`}>
@@ -62,7 +66,7 @@ function IDCollector({ playlistAtom, className }: IDCollectorProps) {
       </div>
       <div className="w-full h-fit  p-2">
         <h2>collected element: {collectedPlaylist.length}</h2>
-        <h2>total estimate time: {collectedPlaylist.length * 6}s</h2>
+        <h2>total estimate time: {date}</h2>
       </div>
     </div>
   ); // return

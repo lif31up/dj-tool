@@ -25,6 +25,7 @@ function HTMLParser({ playlistAtom, className }: HTMLParserProps) {
       const content: string = progressEvent.target.result;
       const buffer: PlaylistElement[] = parseHTML(parserId, content);
       if (buffer !== ParseHTML_ERROR) {
+        console.log(buffer);
         setPlaylist(buffer);
         setStatus(0);
       } // if
@@ -40,6 +41,9 @@ function HTMLParser({ playlistAtom, className }: HTMLParserProps) {
     typo: "text-teal-200 font-medium text-xs",
   }; // tailname
 
+  const secs: number = playlist.length * 6;
+  const date: string = `${Math.round(secs / 60)}m ${secs % 60}s`
+
   return (
     <div className={`${TailClassName(tailname)} ${className}`}>
       <input
@@ -50,7 +54,7 @@ function HTMLParser({ playlistAtom, className }: HTMLParserProps) {
       />
       <div className="w-full h-fit  p-2">
         <h2>raw element: {playlist.length}</h2>
-        <h2>total estimate time: {playlist.length * 6}s</h2>
+        <h2>total estimate time: {date}</h2>
       </div>
       <Error code={status} />
       <div title="parserDiv" id={parserId} />
