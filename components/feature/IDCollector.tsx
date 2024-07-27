@@ -42,10 +42,10 @@ function IDCollector({ playlistAtom, className }: IDCollectorProps) {
     typo: "text-teal-200 font-medium text-xs",
   }; // tailname
 
-  const collectedPlaylist = playlist.filter(
-    (element: PlaylistElement) => element.snippets.length > 0
-  ); // filter
 
+  const collectedPlaylist: PlaylistElement[] = playlist.filter(
+    (element: PlaylistElement): boolean => element.snippets.length > 0
+  ); // filter
   const secs: number = collectedPlaylist.length * 6;
   const date: string = `${Math.round(secs / 60)}m ${secs % 60}s`
 

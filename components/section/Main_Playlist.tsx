@@ -18,38 +18,28 @@ export function trackCmp(
 ): boolean {
   return item0.title === item1.title && item0.artist === item1.artist;
 } // trackCmp
-
 export function snippetGetIndex(videoId: string, data: PlaylistElement): number{
   let get_index: number = 0;
   data.snippets.forEach((snippet, index) => {if (snippet.videoId === videoId) get_index = index})
   return get_index;
 } // snippetGetIndex
-
 export type PlaylistElement = {
   title: string;
   artist: string;
   index: number;
   snippets: Snippet[];
 }; // PlaylistElement
-
 export type Snippet = {
   name: string;
   videoId: string;
   fail: number;
 }; // PlaylistElement
-
 const PlaylistAtom = atom<PlaylistElement[]>({
-  key: "playlist-atom",
+  key: "playlist",
   default: [],
 }); // playlistAtom
-const SafeAtom = atom<PlaylistElement[]>({ key: "safe-atom", default: [] });
 
-interface Main_PlaylistProps extends DefaultProps<never> {
-  safe_mode: boolean;
-} // Main_PlaylistProps
-function Main_Playlist({ className, safe_mode }: Main_PlaylistProps) {
-  let mainAtom = PlaylistAtom;
-  if (safe_mode) mainAtom = SafeAtom;
+function Main_Playlist({ className }: DefaultProps<never>) {
   const tailname: TailProperties = {
     box: "w-fit",
     layout: "flex gap-1",
@@ -67,9 +57,9 @@ function Main_Playlist({ className, safe_mode }: Main_PlaylistProps) {
       <section className={`${TailClassName(tailname)} ${className}`}>
         <div className="w-fit h-fit">
           <div style={paneStyle}>
-            <HTMLParser playlistAtom={mainAtom} />
-            <IDCollector playlistAtom={mainAtom} />
-            <CBLTDownloader playlistAtom={mainAtom} contextAtom={ContextAtom} />
+            <HTMLParser playlistAtom={PlaylistAtom} />
+            <IDCollector playlistAtom={PlaylistAtom} />
+            <CBLTDownloader playlistAtom={PlaylistAtom} contextAtom={ContextAtom} />
           </div>
           <SpareKeys data={keys} />
         </div>
@@ -77,7 +67,7 @@ function Main_Playlist({ className, safe_mode }: Main_PlaylistProps) {
           style={{ ...paneStyle, height: "auto" }}
           className="overflow-scroll"
         >
-          <PlaylistDisplay playlistAtom={mainAtom} contextAtom={ContextAtom}/>
+          <PlaylistDisplay playlistAtom={PlaylistAtom} contextAtom={ContextAtom}/>
         </div>
       </section>
     </RecoilRoot>

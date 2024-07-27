@@ -107,9 +107,10 @@ function IndexButton({ data, index, indexHandler }: IndexButtonProps) {
     bg_border: "bg-teal-800",
   }; // tailname
   if (!data) return <></>;
+  const sate: boolean = !!data.snippets[index].fail;
   return (
     <button
-      className={`${TailClassName(tailname)} ${data.snippets[index].fail ? "bg-red select-none opacity-25" : ""}`}
+      className={`${TailClassName(tailname)} ${sate ? "bg-red-400" : ""}`}
       onClick={() => {
         indexHandler({
           ...data, //@ts-ignore
