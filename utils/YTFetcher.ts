@@ -17,10 +17,11 @@ async function YTFetcher(
   key: string
 ): Promise<PlaylistElement> {
   const { title, artist }: PlaylistElement = data;
-  const address: string = `https://www.googleapis.com/youtube/v3/search?key=${key}&q=${title.replace(
+  const address: string = `https://www.googleapis.com/youtube/v3/search?key=${key}&q=${title.replaceAll(
     " ",
     "+"
-  )}+${artist.replace(" ", "+")}&part=snippet&type=video`;
+  )}+-+${artist.replaceAll(" ", "+")}+extended&part=snippet&type=video`;
+  console.log(address);
   return await fetch(address)
     .then((response: Response) => {
       if (!response.ok)
