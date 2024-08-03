@@ -2,6 +2,7 @@
 
 # ** keys **
 APIkeys.json
+key_encoder.ts
 
 # dependencies
 /node_modules
