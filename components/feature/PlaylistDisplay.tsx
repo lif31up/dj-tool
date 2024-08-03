@@ -106,8 +106,8 @@ function IndexButton({ data, index, indexHandler }: IndexButtonProps) {
     typo: "text-xs font-bold text-teal-200",
     bg_border: "bg-teal-800",
   }; // tailname
-  if (!data) return <></>;
-  const sate: boolean = !!data.snippets[index].fail;
+  if (!data || !data.snippets[index]) return <></>;
+  const sate: boolean = !!data.snippets[index]?.fail;
   return (
     <button
       className={`${TailClassName(tailname)} ${sate ? "bg-red-400" : ""}`}
