@@ -20,7 +20,10 @@ async function YTFetcher(
   const address: string = `https://www.googleapis.com/youtube/v3/search?key=${key}&q="${title.replaceAll(
     " ",
     "+"
-  )}"+${artist.replaceAll(" ", "+")}+OR+extended&part=snippet&type=video`;
+  )}"+${artist.replaceAll(" ", "+")}+OR+"${title.replaceAll(
+  " ",
+  "+"
+  )}"+${artist.replaceAll(" ", "+")}+"extend"&part=snippet&type=video`;
   console.log(address);
   return await fetch(address)
     .then((response: Response) => {
